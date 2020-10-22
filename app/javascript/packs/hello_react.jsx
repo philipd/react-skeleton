@@ -2,14 +2,22 @@
 // like app/views/layouts/application.html.erb. All it does is render <div>Hello React</div> at the bottom
 // of the page.
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import axios from 'axios'
 require('./css/application.css')
 
-const Hello = props => (
-  <div>Hello {props.name}!</div>
-)
+const Hello = props => {
+  const [name, setName] = useState('')
+  useEffect(async ()=> {
+    const resp = await axios.get('/test.json')
+    console.log(resp.data);
+    setName(resp.data.hello);
+  },[]);
+
+  return (<div>Hello {name}!</div>)
+}
 
 Hello.defaultProps = {
   name: 'David'
